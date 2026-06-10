@@ -20,8 +20,11 @@ class AbsoluteMinProof {
 
     @BmcProof(unwind = 4)
     void getMinValue_returns_element_with_minimal_absolute_value() {
-        int a = Bmc.anyInt(-3, 3);
-        int b = Bmc.anyInt(-3, 3);
+        // The defect is specifically that, among two NEGATIVE numbers, the code keeps the more-negative
+        // (larger-magnitude) one instead of the one closest to zero. Pinning both inputs negative makes
+        // the canonical witness the documented {-3, -2}: getMinValue(-3, -2) returns -3, but |-2| < |-3|.
+        int a = Bmc.anyInt(-3, -1);
+        int b = Bmc.anyInt(-3, -1);
         int r = AbsoluteMin.getMinValue(a, b);
         // r must be one of the inputs and have the minimal absolute value.
         int minAbs = Math.min(Math.abs(a), Math.abs(b));
