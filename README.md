@@ -37,10 +37,12 @@ themselves land via **pull requests** — each PR's CI posts a per-proof Expecte
 report as a PR comment, which is the shareable artifact. The PRs are intentionally left **open** as
 the showcase:
 
-- **Prove AbsoluteMin** — plain proof of the documented "smallest absolute value" contract; it
-  REFUTES with the `a = -3, b = -2` counterexample. CI check: **red** (the bug is real). _(PR link below.)_
-- **Prove sorts, search & DP** — sorted-permutation, search-correctness and brute-force-differential
-  sweeps; all VERIFIED. CI check: **green**. _(PR link below.)_
+- **[Prove AbsoluteMin](https://github.com/bmc4j/bmc4j-proofs-the-algorithms-java/pull/1)** — plain
+  proof of the documented "smallest absolute value" contract; it REFUTES with the `a = -3, b = -2`
+  counterexample (`getMinValue(-3, -2)` returns `-3`, should be `-2`). CI check: **red** (the bug is real).
+- **[Prove sorts, search & DP](https://github.com/bmc4j/bmc4j-proofs-the-algorithms-java/pull/2)** —
+  sorted-permutation, search-correctness and brute-force-differential sweeps; all VERIFIED. CI check:
+  **green**.
 
 ## Run it
 
