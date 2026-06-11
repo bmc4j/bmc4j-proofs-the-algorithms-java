@@ -20,7 +20,7 @@ pluginManagement {
     // loop overrides with `-PbmcVersion=0.0.1-local` to consume a `publishToMavenLocal` build.
     //   PowerShell:  ./gradlew --% test -PbmcVersion=0.0.1-local
     plugins {
-        val bmcVersion = (settings.providers.gradleProperty("bmcVersion").orNull) ?: "0.5.1-9aadc48"
+        val bmcVersion = (settings.providers.gradleProperty("bmcVersion").orNull) ?: "0.5.1-f6bfc39"
         id("org.bmc4j") version bmcVersion
     }
 }
