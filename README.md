@@ -14,36 +14,6 @@ Files under `src/main/java/com/thealgorithms/` are verbatim copies of TheAlgorit
 Every file carries a provenance header: the upstream source path plus the upstream commit it was
 copied from. No upstream behavior is modified — that is the whole point.
 
-## Findings
-
-The headline finding is a **real logic bug in `maths/AbsoluteMin.getMinValue(int...)`** — and unlike
-an `Int.MAX` overflow corner, it triggers on **tiny everyday inputs**.
-
-`getMinValue` is documented to return the element with the **smallest absolute value** (the upstream
-test asserts `getMinValue(3, -10, -2) == -2`). After filtering to the abs-≤ candidates it updates the
-running winner with arithmetic `Math.min(value, number)` — the **algebraic** minimum — instead of the
-candidate itself. So an element closer to zero loses to a larger-magnitude one already held. The proof
-asserts the documented contract (`|result|` must be minimal) and **REFUTES** with a two-element
-witness: `a = -3, b = 2` (`getMinValue(-3, 2)` returns `-3`, but `|2| < |-3|`, so it should return
-`2`). The same defect produces `getMinValue(-3, -2) == -3` where `-2` is expected.
-
-The companion sweeps over the sorts, searches and DP algorithms **VERIFY** (the tool proves
-correctness too, not only finds bugs); `AliquotSum` is recorded as a documented limitation
-(VACUOUS-on-purpose) because its `Math.sqrt` branch is outside the engine's reliable model.
-
-## Live proof reports (open PRs)
-
-`main` is the scaffold (vendored sources + workflow) plus one trivial baseline proof. The proofs
-themselves land via **pull requests** — each PR's CI posts a per-proof Expected/Actual/Counterexample
-report as a PR comment, which is the shareable artifact. The PRs are intentionally left **open** as
-the showcase:
-
-- **[Prove AbsoluteMin](https://github.com/bmc4j/bmc4j-proofs-the-algorithms-java/pull/1)** — plain
-  proof of the documented "smallest absolute value" contract; it REFUTES with the `a = -3, b = 2`
-  counterexample (`getMinValue(-3, 2)` returns `-3`, should be `2`). CI check: **red** (the bug is real).
-- **[Prove sorts, search & DP](https://github.com/bmc4j/bmc4j-proofs-the-algorithms-java/pull/2)** —
-  sorted-permutation, search-correctness and brute-force-differential sweeps; all VERIFIED. CI check:
-  **green**.
 
 ## Run it
 
