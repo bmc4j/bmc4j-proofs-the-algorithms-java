@@ -1,7 +1,8 @@
 // Vendored from TheAlgorithms/Java (MIT). See repo-root LICENSE.
 //   source: src/main/java/com/thealgorithms/searches/InterpolationSearch.java
 //   upstream commit: 34079f0aa02d8f4564a21fabd4326f3fd3eb8a8e
-// Verbatim copy. Analyzed by bmc4j as javac compiles it.
+// Modified from the upstream copy: guards the interpolation probe against an equal-corner
+// divide-by-zero. Analyzed by bmc4j as javac compiles it.
 
 package com.thealgorithms.searches;
 
@@ -40,6 +41,12 @@ class InterpolationSearch {
         // Since array is sorted, an element present
         // in array must be in range defined by corner
         while (start <= end && key >= array[start] && key <= array[end]) {
+            // FIX: equal corners (array[start] == array[end]) would divide by zero in the probe below.
+            // In a sorted array that means the whole [start, end] window holds that single value, so the
+            // key — guaranteed in [array[start], array[end]] by the loop condition — is right here.
+            if (array[start] == array[end]) {
+                return array[start] == key ? start : -1;
+            }
             // Probing the position with keeping
             // uniform distribution in mind.
             int pos = start + (((end - start) / (array[end] - array[start])) * (key - array[start]));
